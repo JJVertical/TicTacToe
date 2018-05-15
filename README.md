@@ -1,2 +1,3 @@
-# TicTacToe
-Mobile TicTacToe game
+Mobile TicTacToe Game
+===
+Basic TicTacToe mobile game.
