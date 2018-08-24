@@ -12,7 +12,7 @@ namespace TicTacToe
 
         public GameBoardValidator(int boardSize)
         {
-            if (boardSize < 1)
+            if (boardSize < Constants.MinimumBoardSize)
             {
                 throw new ArgumentOutOfRangeException(nameof(boardSize));
             }
