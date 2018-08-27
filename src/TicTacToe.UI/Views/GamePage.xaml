@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:TicTacToeUi="clr-namespace:TicTacToe.UI"
+             x:Class ="TicTacToe.UI.Views.GamePage"
+             Title="{Binding Title}" Padding="5">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <TicTacToeUi:BoardSizeIsDefaultValueConverter x:Key="BoardSizeIsDefaultValueConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="New Game" Command="{Binding NewGameCommand}" Icon="{}"  />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid x:Name="gameLayoutGrid" BackgroundColor="{StaticResource global_BackGroundColor}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
+            <TicTacToeUi:CustomSizeGameBoard
+                Grid.Row="0"
+                BoardSize="{Binding BoardSize}"
+                MakeMoveCommand="{Binding MakeMoveCommand}"
+                IsVisible="{Binding BoardSize, Converter={StaticResource BoardSizeIsDefaultValueConverter}, ConverterParameter=false}" />
+            <TicTacToeUi:Size3GameBoard
+                Grid.Row="0"
+                IsVisible="{Binding BoardSize, Converter={StaticResource BoardSizeIsDefaultValueConverter}, ConverterParameter=true}" />
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="CurrentPlayer" Text="{Binding CurrentPlayerLabel}" Grid.Column="0" />
+                <StackLayout Grid.Column="1">
+                    <Label x:Name="Player1WinsLabel" Text="{Binding Player1WinsLabel}" />
+                    <Label x:Name="Player2WinsLabel" Text="{Binding Player2WinsLabel}" />
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TicTacToe.UI.Size3GameBoard">
+    <ContentView.Content>
+        <Grid x:Name="gameBoardGrid" RowSpacing="1" ColumnSpacing="1" BackgroundColor="{StaticResource global_GridLinesColor}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="TopLeftLabel" Grid.Row="0" Grid.Column="0" Text="{Binding GameBoardArray[0].Value}"
+                       Style="{Binding CurrentGameState, Converter={StaticResource GameStateValueConverter}, ConverterParameter=WonRow0|WonColumn0|WonDiagonalTop}" />
+            <Label x:Name="TopMiddleLabel" Grid.Row="0" Grid.Column="1" Text="{Binding GameBoardArray[1].Value}"
+                       Style="{Binding CurrentGameState , Converter={StaticResource GameStateValueConverter}, ConverterParameter=WonRow0|WonColumn1}" />
+            <Label x:Name="TopRightLabel" Grid.Row="0" Grid.Column="2" Text="{Binding GameBoardArray[2].Value}"
+                       Style="{Binding CurrentGameState , Converter={StaticResource GameStateValueConverter}, ConverterParameter=WonRow0|WonColumn2|WonDiagonalBottom}" />
+            <Label x:Name="MiddleLeftLabel" Grid.Row="1" Grid.Column="0" Text="{Binding GameBoardArray[3].Value}"
+                       Style="{Binding CurrentGameState , Converter={StaticResource GameStateValueConverter}, ConverterParameter=WonRow1|WonColumn0}" />
+            <Label x:Name="MiddleMiddleLabel" Grid.Row="1" Grid.Column="1" Text="{Binding GameBoardArray[4].Value}"
+                       Style="{Binding CurrentGameState , Converter={StaticResource GameStateValueConverter}, ConverterParameter=WonRow1|WonColumn1|WonDiagonalTop|WonDiagonalBottom}" />
+            <Label x:Name="MiddleRightLabel" Grid.Row="1" Grid.Column="2" Text="{Binding GameBoardArray[5].Value}"
+                       Style="{Binding CurrentGameState , Converter={StaticResource GameStateValueConverter}, ConverterParameter=WonRow1|WonColumn2}" />
+            <Label x:Name="BottomLeftLabel" Grid.Row="2" Grid.Column="0" Text="{Binding GameBoardArray[6].Value}"
+                       Style="{Binding CurrentGameState , Converter={StaticResource GameStateValueConverter}, ConverterParameter=WonRow2|WonColumn0|WonDiagonalBottom}" />
+            <Label x:Name="BottomMiddleLabel" Grid.Row="2" Grid.Column="1" Text="{Binding GameBoardArray[7].Value}"
+                       Style="{Binding CurrentGameState , Converter={StaticResource GameStateValueConverter}, ConverterParameter=WonRow2|WonColumn1}" />
+            <Label x:Name="BottomRightLabel" Grid.Row="2" Grid.Column="2" Text="{Binding GameBoardArray[8].Value}"
+                       Style="{Binding CurrentGameState , Converter={StaticResource GameStateValueConverter}, ConverterParameter=WonRow2|WonColumn2|WonDiagonalTop}" />
+
+            <Button x:Name="TopLeftButton" Grid.Row="0" Grid.Column="0" Command="{Binding MakeMoveCommand}" CommandParameter="{x:Reference TopLeftButton}"
+                        IsVisible="{Binding GameBoardArray[0].IsAvailable}"  Style="{StaticResource global_ButtonBoardSpaceStyle}" />
+            <Button x:Name="TopMiddleButton" Grid.Row="0" Grid.Column="1" Command="{Binding MakeMoveCommand}" CommandParameter="{x:Reference TopMiddleButton}"
+                        IsVisible="{Binding GameBoardArray[1].IsAvailable}" Style="{StaticResource global_ButtonBoardSpaceStyle}" />
+            <Button x:Name="TopRightButton" Grid.Row="0" Grid.Column="2" Command="{Binding MakeMoveCommand}" CommandParameter="{x:Reference TopRightButton}"
+                        IsVisible="{Binding GameBoardArray[2].IsAvailable}" Style="{StaticResource global_ButtonBoardSpaceStyle}" />
+            <Button x:Name="MiddleLeftButton" Grid.Row="1" Grid.Column="0" Command="{Binding MakeMoveCommand}" CommandParameter="{x:Reference MiddleLeftButton}"
+                        IsVisible="{Binding GameBoardArray[3].IsAvailable}" Style="{StaticResource global_ButtonBoardSpaceStyle}" />
+            <Button x:Name="MiddleMiddleButton" Grid.Row="1" Grid.Column="1" Command="{Binding MakeMoveCommand}" CommandParameter="{x:Reference MiddleMiddleButton}"
+                        IsVisible="{Binding GameBoardArray[4].IsAvailable}" Style="{StaticResource global_ButtonBoardSpaceStyle}" />
+            <Button x:Name="MiddleRightButton" Grid.Row="1" Grid.Column="2" Command="{Binding MakeMoveCommand}" CommandParameter="{x:Reference MiddleRightButton}"
+                        IsVisible="{Binding GameBoardArray[5].IsAvailable}" Style="{StaticResource global_ButtonBoardSpaceStyle}" />
+            <Button x:Name="BottomLeftButton" Grid.Row="2" Grid.Column="0" Command="{Binding MakeMoveCommand}" CommandParameter="{x:Reference BottomLeftButton}"
+                        IsVisible="{Binding GameBoardArray[6].IsAvailable}" Style="{StaticResource global_ButtonBoardSpaceStyle}" />
+            <Button x:Name="BottomMiddleButton" Grid.Row="2" Grid.Column="1" Command="{Binding MakeMoveCommand}" CommandParameter="{x:Reference BottomMiddleButton}"
+                        IsVisible="{Binding GameBoardArray[7].IsAvailable}" Style="{StaticResource global_ButtonBoardSpaceStyle}" />
+            <Button x:Name="BottomRightButton" Grid.Row="2" Grid.Column="2" Command="{Binding MakeMoveCommand}" CommandParameter="{x:Reference BottomRightButton}"
+                        IsVisible="{Binding GameBoardArray[8].IsAvailable}" Style="{StaticResource global_ButtonBoardSpaceStyle}" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

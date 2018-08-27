@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:TicTacToeUi="clr-namespace:TicTacToe.UI"
+             x:Class="TicTacToe.UI.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="global_TextColor">Black</Color>
+            <Color x:Key="global_BackGroundColor">LightGray</Color>
+            <Color x:Key="global_GridLinesColor">DarkGray</Color>
+            <Color x:Key="global_MenuTextColor">White</Color>
+
+            <Style x:Key="global_BaseBoardSpaceStyle" TargetType="View">
+                <Setter Property="BackgroundColor" Value="{StaticResource global_BackGroundColor}"/>
+            </Style>
+            <Style x:Key="global_ButtonBoardSpaceStyle" TargetType="Button" BaseResourceKey="global_BaseBoardSpaceStyle">
+                <Setter Property="TextColor" Value="{StaticResource global_TextColor}" />
+                <Setter Property="FontSize" Value="Large" />
+            </Style>
+            <Style x:Key="global_LabelBoardSpaceStyle" TargetType="Label" BaseResourceKey="global_BaseBoardSpaceStyle">
+                <Setter Property="TextColor" Value="{StaticResource global_TextColor}" />
+                <Setter Property="FontSize" Value="Large" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="global_WonBoardSpaceStyle" TargetType="Label" BaseResourceKey="global_LabelBoardSpaceStyle">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="Red" />
+            </Style>
+
+            <TicTacToeUi:GameStateValueConverter x:Key="GameStateValueConverter" WinningBoardSpaceStyle="{StaticResource global_WonBoardSpaceStyle }" BoardSpaceStyle="{StaticResource global_LabelBoardSpaceStyle}"/>
+
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource global_BackGroundColor}" />
+                <Setter Property="BarTextColor" Value="{StaticResource global_MenuTextColor}" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

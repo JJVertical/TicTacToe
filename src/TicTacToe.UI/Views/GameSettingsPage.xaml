@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TicTacToe.UI.Views.GameSettingsPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="labelStyle" TargetType="Label">
+                <Setter Property="BackgroundColor" Value="{StaticResource global_BackGroundColor}" />
+                <Setter Property="TextColor" Value="{StaticResource global_TextColor}" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="Grid.Column" Value="0" />
+            </Style>
+            <Style x:Key="entryStyle" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="{StaticResource global_BackGroundColor}" />
+                <Setter Property="TextColor" Value="{StaticResource global_TextColor}" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="Grid.Column" Value="1" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid x:Name="mainGrid" Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="BoardGrid" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Picker Title="Select a board size"
+                    ItemsSource="{Binding AvailableGameSizes}"
+                    SelectedItem="{Binding CurrentlySelectedGameSize}"
+                    ItemDisplayBinding="{Binding DisplayText}"
+                    BackgroundColor="{StaticResource global_BackGroundColor}"
+                    TextColor="{StaticResource global_TextColor}"
+                    HorizontalOptions="Start"
+                    Grid.Row="0" />
+
+                <Button Text="Play Game" Clicked="PlayGame_Clicked" HorizontalOptions="Start" Grid.Row="1" />
+            </Grid>
+
+            <Grid x:Name="PlayersGrid" Grid.Column="1" Margin="10, 0, 0, 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Player1Name" Style="{StaticResource labelStyle}" Grid.Row="0"/>
+                <Entry Text="{Binding Player1Name, Mode=TwoWay}" Style="{StaticResource entryStyle}" Grid.Row="0" />
+
+                <Label Text="Player Two Name" Style="{StaticResource labelStyle}" Grid.Row="1" />
+                <Entry Text="{Binding Player2Name, Mode=TwoWay}" Style="{StaticResource entryStyle}" Grid.Row="1"/>
+            </Grid>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
