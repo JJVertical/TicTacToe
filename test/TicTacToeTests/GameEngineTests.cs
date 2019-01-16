@@ -22,6 +22,7 @@ namespace TicTacToe.Tests
         [InlineData(0)]
         [InlineData(-1)]
         [InlineData(1)]
+        [InlineData(2)]
         public void CtorBoardSizeInvalidShouldThrowArgumentOutOfRangeException(int boardSize)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new GameEngine(new Player("X", SpaceValue.X), new Player("O", SpaceValue.O), boardSize));

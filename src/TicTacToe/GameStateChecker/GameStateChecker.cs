@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace TicTacToe
 {
@@ -10,13 +9,18 @@ namespace TicTacToe
     {
         private readonly int _boardSize;
 
-        private List<WinningSegment> _winningBoardSegments = new List<WinningSegment>();
+        private readonly WinningBoardSegments _winningBoardSegments;
 
-        public GameStateChecker(int boardSize)
+        public GameStateChecker(int boardSize, bool includeDiamonds = false, bool includeSquares = false)
         {
+            if (boardSize < Constants.MinimumBoardSize)
+            {
+                throw new ArgumentOutOfRangeException(nameof(boardSize));
+            }
+
             _boardSize = boardSize;
 
-            InitializeWinningBoardSegments();
+            _winningBoardSegments = new WinningBoardSegments(boardSize, includeDiamonds, includeSquares);
         }
 
         /// <summary>
@@ -54,96 +58,15 @@ namespace TicTacToe
         private bool IsCatsGame(IGameBoard gameBoard) => gameBoard.BoardIsFull();
 
         /// <summary>
-        /// Adds all the possible winning segments into the list of winning board segments
-        /// </summary>
-        private void InitializeWinningBoardSegments()
-        {
-            AddColumnWinningBoardSegments();
-            AddRowWinningBoardSegments();
-            AddWonDiagonalTopWinningBoardSegments();
-            AddWonDiagonalBottomWinningBoardSegments();
-        }
-
-        /// <summary>
-        /// Adds all the possible winning row segments into the list of winning board segments
-        /// </summary>
-        private void AddRowWinningBoardSegments()
-        {
-            for (var row = 0; row < _boardSize; ++row)
-            {
-                var coordinates = new Coordinate[_boardSize];
-
-                for (var col = 0; col < _boardSize; ++col)
-                {
-                    coordinates[col] = new Coordinate(col, row);
-                }
-
-                _winningBoardSegments.Add(new WinningSegment($"{GameState.WonRow}{row}", coordinates));
-            }
-        }
-
-        /// <summary>
-        /// Adds all the possible winning column segments into the list of winning board segments
-        /// </summary>
-        private void AddColumnWinningBoardSegments()
-        {
-            for (var col = 0; col < _boardSize; ++col)
-            {
-                var coordinates = new Coordinate[_boardSize];
-
-                for (var row = 0; row < _boardSize; ++row)
-                {
-                    coordinates[row] = new Coordinate(col, row);
-                }
-
-                _winningBoardSegments.Add(new WinningSegment($"{GameState.WonColumn}{col}", coordinates));
-            }
-        }
-
-        /// <summary>
-        /// Adds all the possible winning diagonal top left to bottom right segments into the list of winning board segments
-        /// </summary>
-        private void AddWonDiagonalTopWinningBoardSegments()
-        {
-            var coordinates = new Coordinate[_boardSize];
-
-            for (var i = 0; i < _boardSize; ++i)
-            {
-                coordinates[i] = new Coordinate(i, i);
-            }
-
-            _winningBoardSegments.Add(new WinningSegment(GameState.WonDiagonalTop.ToString(), coordinates));
-        }
-
-        /// <summary>
-        /// Adds all the possible winning diagonal bottom left to top right segments into the list of winning board segments
-        /// </summary>
-        private void AddWonDiagonalBottomWinningBoardSegments()
-        {
-            var row = 0;
-            var col = _boardSize - 1;
-            var coordinates = new Coordinate[_boardSize];
-
-            for (var i = 0; i < _boardSize; ++i)
-            {
-                coordinates[i] = new Coordinate(col, row);
-                row++;
-                col--;
-            }
-
-            _winningBoardSegments.Add(new WinningSegment(GameState.WonDiagonalBottom.ToString(), coordinates));
-        }
-
-        /// <summary>
         /// If winning board returns winning GameState otherwise returns GameState.NotWinning
         /// </summary>
         private string CheckWinningGameBoard(IGameBoard gameBoard)
         {
-            foreach (var winningSegment in _winningBoardSegments)
+            foreach (var winningSegment in _winningBoardSegments.GetAllWinningBoardSegments())
             {
                 if (SegmentWon(gameBoard, winningSegment))
                 {
-                    return winningSegment.WinningGameState;
+                    return winningSegment.Label;
                 }
             }
 
@@ -168,22 +91,6 @@ namespace TicTacToe
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Class for holding a winning segment that includes coordinates and a GameState
-        /// </summary>
-        private class WinningSegment
-        {
-            public WinningSegment(string winningGameState, Coordinate[] coordinates)
-            {
-                WinningGameState = winningGameState;
-                Coordinates = coordinates ?? throw new ArgumentNullException(nameof(coordinates));
-            }
-
-            public Coordinate[] Coordinates { get; }
-
-            public string WinningGameState { get; }
         }
     }
 }

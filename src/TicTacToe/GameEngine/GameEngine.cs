@@ -9,17 +9,19 @@ namespace TicTacToe
     public class GameEngine : IGameEngine
     {
         private IGameBoard _currentGameBoard;
+        private IGameStateChecker _gameStateChecker;
 
         /// <summary>
         /// In this constructor player1 will automatically be set to play first
         /// </summary>
-        public GameEngine(Player player1, Player player2, int boardSize = Constants.DefaultBoardSize)
-            : this(player1, player2, player1, boardSize) { }
+        public GameEngine(Player player1, Player player2, int boardSize = Constants.DefaultBoardSize, bool includeDiamonds = false, bool includeSquares = false)
+            : this(player1, player2, player1, boardSize, includeSquares, includeDiamonds) { }
 
-        public GameEngine(Player player1, Player player2, Player playerGoingFirst, int boardSize = Constants.DefaultBoardSize)
+        public GameEngine(Player player1, Player player2, Player playerGoingFirst, int boardSize = Constants.DefaultBoardSize, bool includeDiamonds = false, bool includeSquares = false)
         {
             SetCtorParameterValues(player1, player2, boardSize);
             InitializeCurrentPlayer(player1, player2, playerGoingFirst);
+            InitializeGameStateChecker(boardSize, includeDiamonds, includeSquares);
             NewGame();
         }
 
@@ -98,6 +100,14 @@ namespace TicTacToe
         }
 
         /// <summary>
+        /// Sets up a game state checker for the board size
+        /// </summary>
+        private void InitializeGameStateChecker(int boardSize, bool includeDiamonds, bool includeSquares)
+        {
+            _gameStateChecker = new GameStateChecker(boardSize, includeDiamonds, includeSquares);
+        }
+
+        /// <summary>
         /// Clears off current game and resets game state for a new game
         /// </summary>
         public void NewGame()
@@ -138,7 +148,7 @@ namespace TicTacToe
         /// </summary>
         private void UpdateCurrentGameState()
         {
-            CurrentGameState = new GameStateChecker(BoardSize).CheckBoardState(_currentGameBoard);
+            CurrentGameState = _gameStateChecker.CheckBoardState(_currentGameBoard);
 
             if (CurrentGameState.Equals(GameState.InPlay.ToString()))
             {

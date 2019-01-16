@@ -9,6 +9,8 @@
         WonRow,
         WonColumn,
         WonDiagonalTop,
-        WonDiagonalBottom
+        WonDiagonalBottom,
+        WonSquare,
+        WonDiamond
     }
 }

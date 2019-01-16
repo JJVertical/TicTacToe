@@ -10,9 +10,10 @@ namespace TicTacToe.Tests
         [InlineData(0)]
         [InlineData(-1)]
         [InlineData(1)]
+        [InlineData(2)]
         public void CtorInvalidBoardSizeShouldThrowArgumentOutOfRangeException(int boardSize)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new GameBoardValidator(boardSize));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new GameStateChecker(boardSize));
         }
 
         [Fact]
@@ -307,6 +308,249 @@ namespace TicTacToe.Tests
                 }),
                 $"{GameState.WonColumn}0"
             }
+        };
+
+        [Theory, MemberData(nameof(WonSquareGameTestData))]
+        public void SquareGameWinningBoardShouldReturnWonSquare(IGameBoard gameBoard, int col, int row, int boardSize = 3)
+        {
+            Assert.Equal($"{GameState.WonSquare.ToString()}{col}{row}", new GameStateChecker(boardSize: boardSize, includeSquares: true).CheckBoardState(gameBoard));
+        }
+
+        public static IEnumerable<object[]> WonSquareGameTestData() => new[]
+        {
+            // square 1st column 1st row 3X3
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                    new BoardSpace(SpaceValue.X, 0, 0),
+                    new BoardSpace(SpaceValue.X, 0, 1),
+                    new BoardSpace(SpaceValue.X, 1, 0),
+                    new BoardSpace(SpaceValue.X, 1, 1),
+                    new BoardSpace(SpaceValue.O, 2, 0),
+                    new BoardSpace(SpaceValue.O, 2, 1),
+                    new BoardSpace(SpaceValue.O, 1, 2)
+                }), 0, 0
+            },
+
+            // square 1st col 2nd row 3X3
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                new BoardSpace(SpaceValue.X, 0, 1),
+                new BoardSpace(SpaceValue.X, 0, 2),
+                new BoardSpace(SpaceValue.X, 1, 1),
+                new BoardSpace(SpaceValue.X, 1, 2),
+                new BoardSpace(SpaceValue.O, 0, 0),
+                new BoardSpace(SpaceValue.O, 1, 0),
+                new BoardSpace(SpaceValue.O, 2, 1)
+                }), 0, 1
+            },
+
+            // square 2nd column 1st row 3X3
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                    new BoardSpace(SpaceValue.X, 1, 0),
+                    new BoardSpace(SpaceValue.X, 1, 1),
+                    new BoardSpace(SpaceValue.X, 2, 0),
+                    new BoardSpace(SpaceValue.X, 2, 1),
+                    new BoardSpace(SpaceValue.O, 0, 0),
+                    new BoardSpace(SpaceValue.O, 0, 1),
+                    new BoardSpace(SpaceValue.O, 1, 2)
+                }), 1, 0
+            },
+
+            // square 2nd col 2nd row 3X3
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                new BoardSpace(SpaceValue.X, 1, 1),
+                new BoardSpace(SpaceValue.X, 1, 2),
+                new BoardSpace(SpaceValue.X, 2, 1),
+                new BoardSpace(SpaceValue.X, 2, 2),
+                new BoardSpace(SpaceValue.O, 0, 0),
+                new BoardSpace(SpaceValue.O, 1, 0),
+                new BoardSpace(SpaceValue.O, 0, 1)
+                }), 1, 1
+            },
+
+            // square 2nd col 1st row 4X4
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                    new BoardSpace(SpaceValue.X, 1, 0),
+                    new BoardSpace(SpaceValue.X, 1, 1),
+                    new BoardSpace(SpaceValue.X, 2, 0),
+                    new BoardSpace(SpaceValue.X, 2, 1),
+                    new BoardSpace(SpaceValue.O, 0, 0),
+                    new BoardSpace(SpaceValue.O, 0, 1),
+                    new BoardSpace(SpaceValue.O, 1, 2)
+                }, boardSize: 4), 1, 0, 4
+            },
+
+            // square 2nd col 2nd row 4X4
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                    new BoardSpace(SpaceValue.X, 1, 1),
+                    new BoardSpace(SpaceValue.X, 1, 2),
+                    new BoardSpace(SpaceValue.X, 2, 1),
+                    new BoardSpace(SpaceValue.X, 2, 2),
+                    new BoardSpace(SpaceValue.O, 0, 0),
+                    new BoardSpace(SpaceValue.O, 0, 1),
+                    new BoardSpace(SpaceValue.O, 1, 3)
+                }, boardSize: 4), 1, 1, 4
+            },
+
+            // square 2nd col 3rd row 4X4
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                    new BoardSpace(SpaceValue.X, 1, 2),
+                    new BoardSpace(SpaceValue.X, 1, 3),
+                    new BoardSpace(SpaceValue.X, 2, 2),
+                    new BoardSpace(SpaceValue.X, 2, 3),
+                    new BoardSpace(SpaceValue.O, 0, 0),
+                    new BoardSpace(SpaceValue.O, 0, 1),
+                    new BoardSpace(SpaceValue.O, 1, 0)
+                }, boardSize: 4), 1, 2, 4
+            },
+
+            // square 3rd col 1st row 4X4
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                    new BoardSpace(SpaceValue.X, 2, 0),
+                    new BoardSpace(SpaceValue.X, 2, 1),
+                    new BoardSpace(SpaceValue.X, 3, 0),
+                    new BoardSpace(SpaceValue.X, 3, 1),
+                    new BoardSpace(SpaceValue.O, 0, 0),
+                    new BoardSpace(SpaceValue.O, 0, 1),
+                    new BoardSpace(SpaceValue.O, 1, 2)
+                }, boardSize: 4), 2, 0, 4
+            },
+
+            // square 3rd col 2nd row 4X4
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                    new BoardSpace(SpaceValue.X, 2, 1),
+                    new BoardSpace(SpaceValue.X, 2, 2),
+                    new BoardSpace(SpaceValue.X, 3, 1),
+                    new BoardSpace(SpaceValue.X, 3, 2),
+                    new BoardSpace(SpaceValue.O, 0, 0),
+                    new BoardSpace(SpaceValue.O, 0, 1),
+                    new BoardSpace(SpaceValue.O, 1, 3)
+                }, boardSize: 4), 2, 1, 4
+            },
+
+            // square 3rd col 3rd row 4X4
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                    new BoardSpace(SpaceValue.X, 2, 2),
+                    new BoardSpace(SpaceValue.X, 2, 3),
+                    new BoardSpace(SpaceValue.X, 3, 2),
+                    new BoardSpace(SpaceValue.X, 3, 3),
+                    new BoardSpace(SpaceValue.O, 0, 0),
+                    new BoardSpace(SpaceValue.O, 0, 1),
+                    new BoardSpace(SpaceValue.O, 1, 3)
+                }, boardSize: 4), 2, 2, 4
+            },
+        };
+
+        [Theory, MemberData(nameof(WonDiamondGameTestData))]
+        public void DiamondGameWinningBoardShouldReturnWonDiamond(IGameBoard gameBoard, int col, int row, int boardSize = 3)
+        {
+            Assert.Equal($"{GameState.WonDiamond.ToString()}{col}{row}", new GameStateChecker(boardSize: boardSize, includeDiamonds: true).CheckBoardState(gameBoard));
+        }
+
+        public static IEnumerable<object[]> WonDiamondGameTestData() => new[]
+        {
+            // diamond middle column 3X3
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                    new BoardSpace(SpaceValue.X, 1, 0),
+                    new BoardSpace(SpaceValue.X, 0, 1),
+                    new BoardSpace(SpaceValue.X, 2, 1),
+                    new BoardSpace(SpaceValue.X, 1, 2),
+                    new BoardSpace(SpaceValue.O, 2, 2),
+                    new BoardSpace(SpaceValue.O, 0, 0),
+                    new BoardSpace(SpaceValue.O, 0, 2)
+                }), 1, 0
+            },
+
+            // diamond 2nd col 1st row 4X4
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                    new BoardSpace(SpaceValue.X, 1, 0),
+                    new BoardSpace(SpaceValue.X, 0, 1),
+                    new BoardSpace(SpaceValue.X, 2, 1),
+                    new BoardSpace(SpaceValue.X, 1, 2),
+                    new BoardSpace(SpaceValue.O, 1, 1),
+                    new BoardSpace(SpaceValue.O, 0, 0),
+                    new BoardSpace(SpaceValue.O, 0, 2)
+                }, boardSize: 4), 1, 0, 4
+            },
+
+            // diamond 3rd col 1st row 4X4
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                    new BoardSpace(SpaceValue.X, 2, 0),
+                    new BoardSpace(SpaceValue.X, 1, 1),
+                    new BoardSpace(SpaceValue.X, 3, 1),
+                    new BoardSpace(SpaceValue.X, 2, 2),
+                    new BoardSpace(SpaceValue.O, 1, 2),
+                    new BoardSpace(SpaceValue.O, 0, 0),
+                    new BoardSpace(SpaceValue.O, 0, 2)
+                }, boardSize: 4), 2, 0, 4
+            },
+
+            // diamond 2nd col 2nd row 4X4
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                    new BoardSpace(SpaceValue.X, 1, 1),
+                    new BoardSpace(SpaceValue.X, 0, 2),
+                    new BoardSpace(SpaceValue.X, 2, 2),
+                    new BoardSpace(SpaceValue.X, 1, 3),
+                    new BoardSpace(SpaceValue.O, 1, 0),
+                    new BoardSpace(SpaceValue.O, 0, 0),
+                    new BoardSpace(SpaceValue.O, 0, 3)
+                }, boardSize: 4), 1, 1, 4
+            },
+
+            // diamond 3rd col 2nd row 4X4
+            new object[]
+            {
+                CreateTestGameBoard(new BoardSpace[]
+                {
+                    new BoardSpace(SpaceValue.X, 2, 1),
+                    new BoardSpace(SpaceValue.X, 1, 2),
+                    new BoardSpace(SpaceValue.X, 3, 2),
+                    new BoardSpace(SpaceValue.X, 2, 3),
+                    new BoardSpace(SpaceValue.O, 2, 2),
+                    new BoardSpace(SpaceValue.O, 0, 0),
+                    new BoardSpace(SpaceValue.O, 0, 2)
+                }, boardSize: 4), 2, 1, 4
+            },
         };
     }
 }
